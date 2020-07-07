@@ -34,6 +34,7 @@ import { Line } from 'react-chartjs-2';
       try {
         const response = await fetch(`${bitcoinApi}?currency=${currency}`)
         const data = await response.json()
+        // console.log(data)
         setBitcoinData(data.bpi)
       } catch(err) {
         console.log(err)
@@ -41,6 +42,17 @@ import { Line } from 'react-chartjs-2';
     }
     getData();
   }, [currency]);
+
+    const lineGraphData = {
+    labels: Object.keys(bitcoinData),
+    datasets: [
+      {
+        label: "BCI",
+        data: Object.values(bitcoinData),
+        backgroundColor: "#ffcccb"
+      }
+    ]
+  }
 
    const onOptionChange = (event) => {
     //  console.log(event.target)
@@ -59,13 +71,9 @@ import { Line } from 'react-chartjs-2';
        </select>
 
        <h1>Bitcoin Data for {currency}</h1>
-       {Object.keys(bitcoinData).map((date) => (
-         <div key={date}>
-           Date: {date} Value: {bitcoinData[date]}
-         </div>
-       ))}
-       
+       <Line data={lineGraphData} /> 
      </div>
+// linegraphdata parsed as data = {props}
    );
  };
 
